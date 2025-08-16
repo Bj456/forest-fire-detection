@@ -16,15 +16,7 @@ st.set_page_config(
 )
 
 # ----------------------
-# Banner
-# ----------------------
-BANNER_PATH = "banner.jpg"  # Replace with your banner image path
-if os.path.exists(BANNER_PATH):
-    banner = Image.open(BANNER_PATH)
-    st.image(banner, use_container_width=True)
-
-# ----------------------
-# Title and Subtitle (HTML)
+# Title
 # ----------------------
 st.markdown("""
 <h1 style='text-align: center; font-size: 48px;'>
@@ -32,6 +24,17 @@ st.markdown("""
 </h1>
 """, unsafe_allow_html=True)
 
+# ----------------------
+# Banner image
+# ----------------------
+BANNER_PATH = "fire_banner.jpg"  # Uploaded banner image
+if os.path.exists(BANNER_PATH):
+    banner = Image.open(BANNER_PATH)
+    st.image(banner, use_container_width=True)
+
+# ----------------------
+# Subtitle
+# ----------------------
 st.markdown("""
 <p style='text-align: center; font-size: 20px;'>
 यह आर्टिफ़िशियल इंटेलिजेंस एप्लीकेशन जंगलों को आग से बचाने के लिए एक शैक्षिक नवाचार के रूप में योगदान है।
@@ -140,8 +143,8 @@ if uploaded_file is not None:
     st.subheader("All probabilities")
 
     prob_html = f"""
-    <div style='background-color:#d4f4dd; padding:15px; border-radius:10px; font-family:monospace; font-size:18px;'>
-    <pre style='margin:0;'>
+    <div style='background-color:#d4f4dd; padding:15px; border-radius:10px; font-family:monospace; font-size:18px;' >
+    <pre style='margin:0;' >
 {{
 "Smoke": "<b style='color:#555555'>{all_probs[0]*100:.2f}%</b>",
 "Fire": "<b style='color:red'>{all_probs[1]*100:.2f}%</b>",
