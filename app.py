@@ -41,7 +41,7 @@ st.markdown("""
 # ----------------------
 # Load Model
 # ----------------------
-MODEL_PATH = "forest_fire_final_fixed.h5"  # Updated model
+MODEL_PATH = "forest_fire_final_fixed.h5"
 if not os.path.exists(MODEL_PATH):
     st.error(f"Model not found at {MODEL_PATH}. Please check the path!")
 else:
@@ -97,17 +97,20 @@ if uploaded_file is not None:
         st.error(f"Confidence: {confidence:.2f}%")
 
     # ----------------------
-    # Probabilities Bar Chart
+    # Probabilities Bar Chart with custom colors
     # ----------------------
     prob_df = pd.DataFrame({
         'Class': ['Smoke','Fire','Non-fire'],
         'Probability': all_probs * 100
     })
 
+    color_scale = alt.Scale(domain=['Smoke','Fire','Non-fire'], 
+                            range=['#555555','red','green'])
+
     chart = alt.Chart(prob_df).mark_bar().encode(
         x='Class',
         y='Probability',
-        color='Class'
+        color=alt.Color('Class', scale=color_scale)
     ).properties(width=400)
     st.altair_chart(chart)
 
@@ -126,7 +129,7 @@ if uploaded_file is not None:
         if os.path.exists(smoke_gif_path):
             st.image(smoke_gif_path)
     else:
-        st.success("🌳 **गबराए नहीं! कोई आग नहीं लगी है, आप निश्चित रहें। ✅**")
+        st.success("🌳 **घबराए नहीं! कोई आग नहीं लगी है, आप निश्चित रहें। ✅**")
         safe_gif_path = "safe.gif"
         if os.path.exists(safe_gif_path):
             st.image(safe_gif_path)
@@ -134,14 +137,14 @@ if uploaded_file is not None:
     # ----------------------
     # Highlighted JSON-style Probabilities
     # ----------------------
-    st.subheader("All probabilities ")
+    st.subheader("All probabilities (highlighted)")
 
     prob_html = f"""
     <div style='background-color:#d4f4dd; padding:15px; border-radius:10px; font-family:monospace; font-size:18px;'>
     <pre style='margin:0;'>
 {{
-"Smoke": "<b style='color:green'>{all_probs[0]*100:.2f}%</b>",
-"Fire": "<b style='color:green'>{all_probs[1]*100:.2f}%</b>",
+"Smoke": "<b style='color:#555555'>{all_probs[0]*100:.2f}%</b>",
+"Fire": "<b style='color:red'>{all_probs[1]*100:.2f}%</b>",
 "Non-fire": "<b style='color:green'>{all_probs[2]*100:.2f}%</b>"
 }}
     </pre>
