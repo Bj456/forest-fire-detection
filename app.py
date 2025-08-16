@@ -27,7 +27,7 @@ st.markdown("""
 # ----------------------
 # Banner image
 # ----------------------
-BANNER_PATH = "fire_banner.jpg"  # Uploaded banner image
+BANNER_PATH = "fire_banner.png"  # Uploaded banner image
 if os.path.exists(BANNER_PATH):
     banner = Image.open(BANNER_PATH)
     st.image(banner, use_container_width=True)
