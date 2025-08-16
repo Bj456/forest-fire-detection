@@ -25,12 +25,21 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ----------------------
-# Banner image
+# Banner image (resized to professional look)
 # ----------------------
-BANNER_PATH = "fire_banner.png"  # Uploaded banner image
+BANNER_PATH = "fire_banner.png"  # Your uploaded banner
 if os.path.exists(BANNER_PATH):
     banner = Image.open(BANNER_PATH)
-    st.image(banner, use_container_width=True)
+    
+    # Resize: width ~150px (~4cm), maintain aspect ratio
+    width = 150
+    wpercent = (width / float(banner.size[0]))
+    height = int((float(banner.size[1]) * float(wpercent)))
+    banner = banner.resize((width, height), Image.ANTIALIAS)
+    
+    st.image(banner, use_column_width=False)
+else:
+    st.warning("Banner image not found! Please check the file path.")
 
 # ----------------------
 # Subtitle
