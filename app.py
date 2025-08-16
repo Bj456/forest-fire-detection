@@ -30,14 +30,10 @@ st.markdown("""
 BANNER_PATH = "fire_banner.png"  # Your uploaded banner
 if os.path.exists(BANNER_PATH):
     banner = Image.open(BANNER_PATH)
-    
-    # Resize: width = container width (~700px default), height auto
     container_width = 700
     wpercent = (container_width / float(banner.size[0]))
     height = int((float(banner.size[1]) * float(wpercent)))
-    
     banner = banner.resize((container_width, height), Image.LANCZOS)
-    
     st.image(banner, use_container_width=True)
 else:
     st.warning("Banner image not found! Please check the file path.")
@@ -164,3 +160,12 @@ if uploaded_file is not None:
     </div>
     """
     st.markdown(prob_html, unsafe_allow_html=True)
+
+# ----------------------
+# Footer
+# ----------------------
+st.markdown("""
+<div style='position:fixed; bottom:0; width:100%; background-color:#f0f0f0; padding:10px; text-align:center; font-size:14px; color:#333; border-top:1px solid #ccc;'>
+AI Model शिक्ष्क Bhaskar Joshi द्वारा प्रशिक्षित। सभी अधिकार सुरक्षित। License: CC-BY-SA
+</div>
+""", unsafe_allow_html=True)
