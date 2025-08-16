@@ -137,7 +137,7 @@ if uploaded_file is not None:
     # ----------------------
     # Highlighted JSON-style Probabilities
     # ----------------------
-    st.subheader("All probabilities (highlighted)")
+    st.subheader("All probabilities")
 
     prob_html = f"""
     <div style='background-color:#d4f4dd; padding:15px; border-radius:10px; font-family:monospace; font-size:18px;'>
