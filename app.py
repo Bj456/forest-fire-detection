@@ -132,14 +132,19 @@ if uploaded_file is not None:
             st.image(safe_gif_path)
 
     # ----------------------
-    # Highlighted Probabilities (Bold + Green)
+    # Highlighted JSON-style Probabilities
     # ----------------------
     st.subheader("All probabilities (highlighted)")
+
     prob_html = f"""
-    <div style='font-size:20px;'>
-    <p><b style='color:#1f77b4'>Smoke:</b> <b style='color:green'>{all_probs[0]*100:.2f}%</b></p>
-    <p><b style='color:#ff7f0e'>Fire:</b> <b style='color:green'>{all_probs[1]*100:.2f}%</b></p>
-    <p><b style='color:#2ca02c'>Non-fire:</b> <b style='color:green'>{all_probs[2]*100:.2f}%</b></p>
+    <div style='background-color:#d4f4dd; padding:15px; border-radius:10px; font-family:monospace; font-size:18px;'>
+    <pre style='margin:0;'>
+{{
+"Smoke": "<b style='color:green'>{all_probs[0]*100:.2f}%</b>",
+"Fire": "<b style='color:green'>{all_probs[1]*100:.2f}%</b>",
+"Non-fire": "<b style='color:green'>{all_probs[2]*100:.2f}%</b>"
+}}
+    </pre>
     </div>
     """
     st.markdown(prob_html, unsafe_allow_html=True)
