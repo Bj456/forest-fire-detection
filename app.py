@@ -20,18 +20,13 @@ st.set_page_config(
 # ----------------------
 # Banner
 # ----------------------
-BANNER_PATH = "fire_banner.png"  # Replace with your banner image path
+BANNER_PATH = "fire_banner.png"  # Banner image path
 if os.path.exists(BANNER_PATH):
     banner = Image.open(BANNER_PATH)
-    width_percent = 0.95  # Adjust width as % of container
-    banner_width = int(banner.width * width_percent)
-    banner_ratio = banner.width / banner.height
-    banner_height = int(banner_width / banner_ratio)
-    banner = banner.resize((banner_width, banner_height), Image.LANCZOS)
     st.image(banner, use_container_width=True)
 
 # ----------------------
-# Title and Subtitle (HTML)
+# Title and Subtitle
 # ----------------------
 st.markdown("""
 <h1 style='text-align: center; font-size: 42px;'>
@@ -88,6 +83,8 @@ if uploaded_file is not None:
     emoji_dict = {'fire':'🔥','Smoke':'💨','non fire':'🌳'}
     st.subheader(f"Prediction: **{pred_class}** {emoji_dict[pred_class]}")
 
+    # ----------------------
+    # Confidence Bar
     st.subheader("Prediction Confidence")
     st.progress(int(confidence))
     if confidence > 80:
@@ -97,6 +94,8 @@ if uploaded_file is not None:
     else:
         st.error(f"Confidence: {confidence:.2f}%")
 
+    # ----------------------
+    # Probability Bar Chart
     prob_df = pd.DataFrame({
         'Class':['Smoke','Fire','Non-fire'],
         'Probability': all_probs*100
@@ -109,7 +108,8 @@ if uploaded_file is not None:
     ).properties(width=400)
     st.altair_chart(chart)
 
-    # Alerts + GIFs
+    # ----------------------
+    # Interactive Alerts + GIFs
     if pred_class=='fire' and confidence>80:
         st.balloons()
         st.markdown("⚠️ **आग लगी है! कृपया तुरंत आवश्यक कदम उठाएँ! 🔥🔥**")
@@ -127,6 +127,7 @@ if uploaded_file is not None:
         if os.path.exists(safe_gif):
             st.image(safe_gif)
 
+    # ----------------------
     # Highlighted JSON-style probabilities
     prob_html = f"""
     <div style='background-color:#d4f4dd; padding:15px; border-radius:10px; font-family:monospace; font-size:18px;'>
@@ -142,7 +143,7 @@ if uploaded_file is not None:
     st.markdown(prob_html, unsafe_allow_html=True)
 
 # ----------------------
-# Mobile/PC Webcam Prediction
+# Webcam Prediction
 # ----------------------
 st.header("📷 Live Camera Prediction")
 
@@ -175,7 +176,6 @@ webrtc_streamer(
 
 # ----------------------
 # Footer
-# ----------------------
 st.markdown("""
 <p style='text-align:center; font-size:14px; margin-top:30px;'>
 AI Model शिक्षाक भास्कर जोशी द्वारा प्रशिक्षित किया गया है। सभी अधिकार सुरक्षित। License: CC BY
