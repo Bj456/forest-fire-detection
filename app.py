@@ -16,6 +16,11 @@ model = load_my_model()
 
 # Class labels
 class_names = ["fire", "non fire", "smoke"]
+class_display = {
+    "fire": "🔥 Fire detected",
+    "smoke": "💨 Smoke detected",
+    "non fire": "✅ No Fire"
+}
 
 # ------------------------------
 # 🔹 Streamlit UI
@@ -30,8 +35,9 @@ if uploaded_file is not None:
     img_array = image.img_to_array(img) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
 
-    prediction = model.predict(img_array)
-    predicted_class = class_names[np.argmax(prediction)]
+    prediction = model.predict(img_array)[0]
+    predicted_idx = np.argmax(prediction)
+    predicted_class = class_names[predicted_idx]
+    confidence = prediction[predicted_idx] * 100  # percentage
 
-    st.image(uploaded_file, caption=f"Prediction: {predicted_class}", use_column_width=True)
-    st.write("Prediction Probabilities:", prediction)
+    st.image(uploaded_file, caption=f"{class_display[predicted_class]} ({confidence:.2f}%)", use_container_width=True)
