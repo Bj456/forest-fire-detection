@@ -112,15 +112,24 @@ if uploaded_file is not None:
     st.altair_chart(chart)
 
     # ----------------------
-    # Fire/Smoke Alert
+    # Interactive Hindi Alerts + GIFs
     # ----------------------
     if pred_class == 'fire' and confidence > 80:
         st.balloons()
-        st.error("⚠️ Fire detected! Please take action immediately!")
+        st.markdown("⚠️ **आग लगी है! कृपया तुरंत आवश्यक कदम उठाएँ! 🔥🔥**")
+        fire_gif_path = "fire_alert.gif"
+        if os.path.exists(fire_gif_path):
+            st.image(fire_gif_path)
     elif pred_class == 'Smoke' and confidence > 80:
-        st.warning("💨 Smoke detected. Monitor the area closely.")
+        st.warning("💨 **धुआँ detected! शायद आग लग सकती है, कृपया आवश्यक सावधानी बरतें।**")
+        smoke_gif_path = "smoke_alert.gif"
+        if os.path.exists(smoke_gif_path):
+            st.image(smoke_gif_path)
     else:
-        st.success("🌳 No fire detected. All safe!")
+        st.success("🌳 **गबराए नहीं! कोई आग नहीं लगी है, आप निश्चित रहें। ✅**")
+        safe_gif_path = "safe.gif"
+        if os.path.exists(safe_gif_path):
+            st.image(safe_gif_path)
 
     # ----------------------
     # All Probabilities (Optional)
