@@ -180,6 +180,6 @@ color:#333;
 border-top:1px solid #ccc;
 z-index:1000;
 '>
-AI Model शिक्ष्क Bhaskar Joshi द्वारा प्रशिक्षित। सभी अधिकार सुरक्षित। License: CC-BY-SA
+AI Model शिक्षक भास्कर जोशी  द्वारा प्रशिक्षित। सभी अधिकार सुरक्षित। License: CC-BY-SA
 </div>
 """, unsafe_allow_html=True)
