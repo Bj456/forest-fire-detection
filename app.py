@@ -162,10 +162,24 @@ if uploaded_file is not None:
     st.markdown(prob_html, unsafe_allow_html=True)
 
 # ----------------------
-# Footer (center aligned)
+# Footer (center bottom)
 # ----------------------
 st.markdown("""
-<div style='position:fixed; bottom:0; width:100%; background-color:#f0f0f0; padding:10px; text-align:center; font-size:14px; color:#333; border-top:1px solid #ccc;'>
+<div style='
+position: fixed;
+left: 0;
+bottom: 0;
+width: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+background-color:#f0f0f0;
+padding:10px;
+font-size:14px;
+color:#333;
+border-top:1px solid #ccc;
+z-index:1000;
+'>
 AI Model शिक्ष्क Bhaskar Joshi द्वारा प्रशिक्षित। सभी अधिकार सुरक्षित। License: CC-BY-SA
 </div>
 """, unsafe_allow_html=True)
