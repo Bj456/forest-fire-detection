@@ -1,43 +1,37 @@
 import streamlit as st
-import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
+from PIL import Image
 
-# ------------------------------
-# 🔹 Model load function
-# ------------------------------
-@st.cache_resource
-def load_my_model():
-    model = load_model("forest_fire_final.h5")
-    return model
+st.title("🌲 Forest Fire Detection App")
 
-model = load_my_model()
+# 🔹 Load model
+model = load_model("forest_fire_final.h5")
 
-# Class labels
-class_names = ["fire", "non fire", "smoke"]
-class_display = {
-    "fire": "🔥 Fire detected",
-    "smoke": "💨 Smoke detected",
-    "non fire": "✅ No Fire"
-}
+# Class mapping
+class_indices = {'Smoke': 0, 'fire': 1, 'non fire': 2}
+idx_to_class = {v: k for k, v in class_indices.items()}
 
-# ------------------------------
-# 🔹 Streamlit UI
-# ------------------------------
-st.title("🔥 Forest Fire Detection App")
-st.write("Upload an image of a forest to check if it's fire, smoke, or safe.")
-
-uploaded_file = st.file_uploader("Upload an image", type=["jpg", "png", "jpeg"])
+# 🔹 Image upload
+uploaded_file = st.file_uploader("Upload an image...", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
-    img = image.load_img(uploaded_file, target_size=(128, 128))
-    img_array = image.img_to_array(img) / 255.0
+    img = Image.open(uploaded_file)
+    st.image(img, caption='Uploaded Image', use_column_width=True)
+    
+    # Preprocess image
+    img = img.resize((128,128))
+    img_array = image.img_to_array(img).astype('float32') / 255.0
     img_array = np.expand_dims(img_array, axis=0)
-
-    prediction = model.predict(img_array)[0]
-    predicted_idx = np.argmax(prediction)
-    predicted_class = class_names[predicted_idx]
-    confidence = prediction[predicted_idx] * 100  # percentage
-
-    st.image(uploaded_file, caption=f"{class_display[predicted_class]} ({confidence:.2f}%)", use_container_width=True)
+    
+    # Predict
+    pred_probs = model.predict(img_array)
+    pred_idx = np.argmax(pred_probs)
+    pred_class = idx_to_class[pred_idx]
+    confidence = pred_probs[0][pred_idx] * 100
+    
+    # Show result
+    st.subheader("Prediction Result")
+    st.write(f"Prediction: **{pred_class}**")
+    st.write(f"Confidence: **{confidence:.2f}%**")
