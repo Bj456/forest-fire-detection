@@ -162,7 +162,7 @@ if uploaded_file is not None:
     st.markdown(prob_html, unsafe_allow_html=True)
 
 # ----------------------
-# Footer
+# Footer (center aligned)
 # ----------------------
 st.markdown("""
 <div style='position:fixed; bottom:0; width:100%; background-color:#f0f0f0; padding:10px; text-align:center; font-size:14px; color:#333; border-top:1px solid #ccc;'>
