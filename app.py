@@ -24,13 +24,19 @@ if os.path.exists(BANNER_PATH):
     st.image(banner, use_container_width=True)
 
 # ----------------------
-# Title and Subtitle
+# Title and Subtitle (HTML)
 # ----------------------
-st.title("🌲🌲 Innovative Forest Fire Detection AI App 🌲🌲")
+st.markdown("""
+<h1 style='text-align: center; font-size: 48px;'>
+🌲🌲 Innovative Forest Fire Detection AI App 🌲🌲
+</h1>
+""", unsafe_allow_html=True)
 
 st.markdown("""
-**यह आर्टिफिशियल इंटेलिजेंस (एआई) एप्लीकेशन उत्तराखंड के जंगलों को आग से बचाने के लिए एक शैक्षिक नवाचार के रूप में योगदान है।**
-""")
+<p style='text-align: center; font-size: 20px;'>
+यह Artificial Intelligence एप्लीकेशन उत्तराखंड के नवाचारी शिक्षक भास्कर जोशी द्वारा उत्तराखंड के जंगलों को आग से बचाने के लिए एक नवाचार के रूप में योगदान है।
+</p>
+""", unsafe_allow_html=True)
 
 # ----------------------
 # Load Model
