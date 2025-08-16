@@ -35,9 +35,11 @@ if os.path.exists(BANNER_PATH):
     width = 150
     wpercent = (width / float(banner.size[0]))
     height = int((float(banner.size[1]) * float(wpercent)))
-    banner = banner.resize((width, height), Image.ANTIALIAS)
     
-    st.image(banner, use_column_width=False)
+    # Use LANCZOS instead of deprecated ANTIALIAS
+    banner = banner.resize((width, height), Image.LANCZOS)
+    
+    st.image(banner, use_container_width=False)
 else:
     st.warning("Banner image not found! Please check the file path.")
 
