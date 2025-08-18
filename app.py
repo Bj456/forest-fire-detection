@@ -5,57 +5,26 @@ import numpy as np
 from PIL import Image
 import pandas as pd
 import altair as alt
-import os
 
 # ----------------------
 # Page config
 # ----------------------
 st.set_page_config(
-    page_title="🌲🌲 Innovative Forest Fire Detection AI App 🌲🌲",
+    page_title="🌲 Forest Fire Detection AI App",
     layout="centered"
 )
 
 # ----------------------
 # Title
 # ----------------------
-st.markdown("""
-<h1 style='text-align: center; font-size: 48px;'>
-🌲🌲 Innovative Forest Fire Detection AI App 🌲🌲
-</h1>
-""", unsafe_allow_html=True)
-
-# ----------------------
-# Banner image (screen width, maintain aspect ratio)
-# ----------------------
-BANNER_PATH = "fire_banner.png"  # Your uploaded banner
-if os.path.exists(BANNER_PATH):
-    banner = Image.open(BANNER_PATH)
-    container_width = 700
-    wpercent = (container_width / float(banner.size[0]))
-    height = int((float(banner.size[1]) * float(wpercent)))
-    banner = banner.resize((container_width, height), Image.LANCZOS)
-    st.image(banner, use_container_width=True)
-else:
-    st.warning("Banner image not found! Please check the file path.")
-
-# ----------------------
-# Subtitle
-# ----------------------
-st.markdown("""
-<p style='text-align: center; font-size: 20px;'>
-यह आर्टिफ़िशियल इंटेलिजेंस एप्लीकेशन जंगलों को आग से बचाने के लिए एक शैक्षिक नवाचार के रूप में योगदान है।
-</p>
-""", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; font-size: 48px;'>🌲 Forest Fire Detection AI App 🌲</h1>", unsafe_allow_html=True)
 
 # ----------------------
 # Load Model
 # ----------------------
 MODEL_PATH = "forest_fire_final_fixed.h5"
-if not os.path.exists(MODEL_PATH):
-    st.error(f"Model not found at {MODEL_PATH}. Please check the path!")
-else:
-    model = load_model(MODEL_PATH)
-    st.success("Model loaded successfully!")
+model = load_model(MODEL_PATH)
+st.success("Model loaded successfully!")
 
 # ----------------------
 # Class mapping
@@ -87,15 +56,11 @@ if uploaded_file is not None:
 
     pred_class, confidence, all_probs = predict_image(img)
 
-    # ----------------------
-    # Emoji Feedback
-    # ----------------------
+    # Emoji feedback
     emoji_dict = {'fire':'🔥', 'Smoke':'💨', 'non fire':'🌳'}
     st.subheader(f"Prediction: **{pred_class}** {emoji_dict[pred_class]}")
 
-    # ----------------------
-    # Confidence Bar
-    # ----------------------
+    # Confidence bar
     st.subheader("Prediction Confidence")
     st.progress(int(confidence))
     if confidence > 80:
@@ -105,17 +70,12 @@ if uploaded_file is not None:
     else:
         st.error(f"Confidence: {confidence:.2f}%")
 
-    # ----------------------
-    # Probabilities Bar Chart with custom colors
-    # ----------------------
+    # Probabilities Bar Chart
     prob_df = pd.DataFrame({
         'Class': ['Smoke','Fire','Non-fire'],
         'Probability': all_probs * 100
     })
-
-    color_scale = alt.Scale(domain=['Smoke','Fire','Non-fire'], 
-                            range=['#555555','red','green'])
-
+    color_scale = alt.Scale(domain=['Smoke','Fire','Non-fire'], range=['#555555','red','green'])
     chart = alt.Chart(prob_df).mark_bar().encode(
         x='Class',
         y='Probability',
@@ -123,15 +83,20 @@ if uploaded_file is not None:
     ).properties(width=400)
     st.altair_chart(chart)
 
-    # ----------------------
-    # Interactive Hindi Alerts + GIFs
-    # ----------------------
+    # Alerts + GIFs
     if pred_class == 'fire' and confidence > 80:
         st.balloons()
         st.markdown("⚠️ **आग लगी है! कृपया तुरंत आवश्यक कदम उठाएँ! 🔥🔥**")
         fire_gif_path = "fire_alert.gif"
         if os.path.exists(fire_gif_path):
             st.image(fire_gif_path)
+        # 🔹 Auto-play Siren using HTML audio
+        st.markdown("""
+        <audio autoplay>
+            <source src="https://actions.google.com/sounds/v1/emergency/emergency_siren_close_long.ogg" type="audio/ogg">
+        </audio>
+        """, unsafe_allow_html=True)
+
     elif pred_class == 'Smoke' and confidence > 80:
         st.warning("💨 **धुआँ detected! शायद आग लग सकती है, कृपया आवश्यक सावधानी बरतें।**")
         smoke_gif_path = "smoke_alert.gif"
@@ -143,11 +108,8 @@ if uploaded_file is not None:
         if os.path.exists(safe_gif_path):
             st.image(safe_gif_path)
 
-    # ----------------------
     # Highlighted JSON-style Probabilities
-    # ----------------------
     st.subheader("All probabilities")
-
     prob_html = f"""
     <div style='background-color:#d4f4dd; padding:15px; border-radius:10px; font-family:monospace; font-size:18px;' >
     <pre style='margin:0;' >
@@ -161,9 +123,7 @@ if uploaded_file is not None:
     """
     st.markdown(prob_html, unsafe_allow_html=True)
 
-# ----------------------
-# Footer (center bottom)
-# ----------------------
+# Footer
 st.markdown("""
 <div style='
 position: fixed;
